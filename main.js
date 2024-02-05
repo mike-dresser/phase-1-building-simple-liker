@@ -2,9 +2,29 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
+document.addEventListener('click', handleLike);
 
+function handleLike(event) {
+  if (event.target.classList.contains('like-glyph')) {
+    mimicServerCall()
+      .then(response => {
+        console.log(response);
+        event.target.textContent = 
+          event.target.textContent === EMPTY_HEART ? FULL_HEART : EMPTY_HEART;
+        event.target.classList.toggle('activated-heart');
+      })
+      .catch(error => handleError(error))
+  }
 
+} 
+
+function handleError(error) {
+  const modal = document.querySelector('#modal');
+  const modalMessage = modal.querySelector('#modal-message');
+  modalMessage.textContent = error;
+  modal.classList.toggle('hidden');
+  setTimeout(() => modal.classList.toggle('hidden'), 3000);
+}
 
 
 //------------------------------------------------------------------------------
